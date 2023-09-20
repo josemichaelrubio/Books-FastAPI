@@ -22,7 +22,7 @@ class Book:
 
 
 class BookRequest(BaseModel):
-    id: Optional[int]
+    id: Optional[int] = None
     title: str = Field(min_length=3)
     author: str = Field(min_length=1)
     description: str = Field(min_length=1, max_length=100)
@@ -51,7 +51,7 @@ async def create_book(book_request: BookRequest):
 
 def find_book_by_id(book: Book):
     if len(BOOKS) == 0:
-        book.id = Books[-1].id + 1
+        book.id = BOOKS[-1].id + 1
     else:
         book.id = 1
     return book
