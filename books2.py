@@ -28,6 +28,16 @@ class BookRequest(BaseModel):
     description: str = Field(min_length=1, max_length=100)
     rating: int = Field(gt=-1, lt=6)
 
+    class Config:
+        json_schema_extra = {
+            'example': {
+                'title': 'New Book',
+                'author': 'New Author',
+                'description': 'D',
+                'rating': 5
+            }
+
+        }
 
 BOOKS = [
     Book(id=1, title="Python Cookbook", author="N1", description="Python Cookbook D", rating=5),
@@ -50,7 +60,7 @@ async def create_book(book_request: BookRequest):
 
 
 def find_book_by_id(book: Book):
-    if len(BOOKS) == 0:
+    if len(BOOKS) > 0:
         book.id = BOOKS[-1].id + 1
     else:
         book.id = 1
