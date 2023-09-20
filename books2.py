@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Path
 from pydantic import BaseModel, Field
 
 app = FastAPI()
@@ -43,12 +43,17 @@ class BookRequest(BaseModel):
 
         }
 
+
 BOOKS = [
     Book(id=1, title="Python Cookbook", author="N1", description="Python Cookbook D", rating=5, publication_date=2023),
-    Book(id=2, title="Python Cookbook 2", author="N2", description="Python Cookbook 2 D", rating=4, publication_date=2023),
-    Book(id=3, title="Python Cookbook 3", author="N3", description="Python Cookbook 3 D", rating=4, publication_date=-100),
-    Book(id=4, title="Python Cookbook 4", author="N4", description="Python Cookbook 4 D", rating=3, publication_date=1999),
-    Book(id=5, title="Python Cookbook 5", author="N4", description="Python Cookbook 5 D", rating=1, publication_date=1999),
+    Book(id=2, title="Python Cookbook 2", author="N2", description="Python Cookbook 2 D", rating=4,
+         publication_date=2023),
+    Book(id=3, title="Python Cookbook 3", author="N3", description="Python Cookbook 3 D", rating=4,
+         publication_date=-100),
+    Book(id=4, title="Python Cookbook 4", author="N4", description="Python Cookbook 4 D", rating=3,
+         publication_date=1999),
+    Book(id=5, title="Python Cookbook 5", author="N4", description="Python Cookbook 5 D", rating=1,
+         publication_date=1999),
 ]
 
 
@@ -56,11 +61,13 @@ BOOKS = [
 async def read_all_books():
     return BOOKS
 
+
 @app.get("/books/{book_id}")
-async def read_book_by_id(book_id: int):
+async def read_book_by_id(book_id: int = Path(gt=0)):
     for book in BOOKS:
         if book.id == book_id:
             return book
+
 
 @app.get("/books/publication-date/")
 async def get_book_by_publication_date(publication_date: int):
@@ -69,15 +76,15 @@ async def get_book_by_publication_date(publication_date: int):
         if book.publication_date == publication_date:
             books_to_return.append(book)
     return books_to_return
+
+
 @app.get("/books/rating/")
-async def read_book_by_rating(rating: int):
+async def read_book_by_rating(rating: int= Path(gt=-1, lt=6)):
     books_to_return = []
     for book in BOOKS:
         if book.rating == rating:
             books_to_return.append(book)
     return books_to_return
-
-
 
 
 @app.post("/create-book")
@@ -93,6 +100,7 @@ def find_book_by_id(book: Book):
         book.id = 1
     return book
 
+
 @app.put("/books/{book_id}/update")
 async def update_book(book_id: int, book_request: BookRequest):
     for book in BOOKS:
@@ -104,10 +112,10 @@ async def update_book(book_id: int, book_request: BookRequest):
             book.publication_date = book_request.publication_date
             return book
 
+
 @app.delete("/books/{book_id}")
-async def delete_book_by_id(book_id: int):
+async def delete_book_by_id(book_id: int= Path(gt=0)):
     for book in BOOKS:
         if book.id == book_id:
             BOOKS.remove(book)
             return book
-
