@@ -69,3 +69,10 @@ async def update_todo(db: db_dependency, todo_request: TodoRequest, todo_id: int
     db.add(todo_model)
     db.commit()
 
+@app.delete("/todo/{todo_id}", status_code=status.HTTP_202_ACCEPTED)
+async def delete_todo(db: db_dependency, todo_id: int = Path(gt=0)):
+    todo_model = db.query(ToDos).filter(ToDos.id == todo_id).first()
+    if todo_model is None:
+        raise HTTPException(status_code=404, detail=f'Todo with id {todo_id} does not exist')
+    db.delete(todo_model)
+    db.commit()
