@@ -30,6 +30,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 async def read_all(db: db_dependency):
     return db.query(ToDos).all()
 
+
 @app.get('/todo/{todo_id}', status_code=status.HTTP_200_OK)
 async def read_one(db: db_dependency, todo_id: int = Path(gt=0)):
     todo_model = db.query(ToDos).filter(ToDos.id == todo_id).first()
