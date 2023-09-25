@@ -8,10 +8,13 @@ from starlette import status
 import models
 from models import ToDos
 from database import engine, SessionLocal
+from routers import auth
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
+
+app.include_router(auth.router)
 
 
 # Open a database connection then closing it afterwards
