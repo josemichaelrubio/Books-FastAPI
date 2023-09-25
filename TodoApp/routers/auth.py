@@ -1,9 +1,11 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from models import Users
+from passlib.context import CryptContext
 
 router = APIRouter()
 
+bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class CreateUserRequest(BaseModel):
     username: str
@@ -23,8 +25,7 @@ async def create_user(create_user_request: CreateUserRequest):
         email=create_user_request.email,
         first_name=create_user_request.first_name,
         last_name=create_user_request.last_name,
-        # This is why we cannot use ** because hash_password is different than password
-        hashed_password=create_user_request.password,
+        hashed_password=bcrypt_context.hash(create_user_request.password),
         role=create_user_request.role,
         is_active=True
     )
