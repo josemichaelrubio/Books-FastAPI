@@ -11,7 +11,6 @@ from database import SessionLocal
 router = APIRouter()
 
 
-
 # Open a database connection then closing it afterwards
 def get_db():
     db = SessionLocal()
@@ -74,4 +73,3 @@ async def delete_todo(db: db_dependency, todo_id: int = Path(gt=0)):
         raise HTTPException(status_code=404, detail=f'Todo with id {todo_id} does not exist')
     db.delete(todo_model)
     db.commit()
-
