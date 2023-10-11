@@ -9,3 +9,5 @@
 	models.py,8/5/85f64e80ba345158acc186d4505f039d4f21420f
 ?
 routers/auth.py,8/5/85f203a072ecaeff13fda28035aae708563828ea
+@
+routers/admin.py,1/a/1a010e2d217ab218614dc2d3a3e5c7318ae61f85
