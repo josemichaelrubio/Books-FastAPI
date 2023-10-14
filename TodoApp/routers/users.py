@@ -11,16 +11,13 @@ from database import SessionLocal
 from .auth import get_current_user
 
 from passlib.context import CryptContext
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from jose import jwt, JWTError
+from fastapi.security import OAuth2PasswordBearer
 
 SECRET_KEY = '59b320002b11581c550a250b771a6ed7763314c563bcc5f5db615a206fff3ad8'
 ALGORITHM = 'HS256'
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
-
-# TODO: here is where I left off. Add hash functionality to this router
 
 router = APIRouter(prefix='/users',
                    tags=['users']
@@ -41,7 +38,6 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 class UserRequest(BaseModel):
     password: str
-
 
 
 @router.get('/current', status_code=status.HTTP_200_OK)
