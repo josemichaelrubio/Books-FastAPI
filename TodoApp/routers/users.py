@@ -36,6 +36,10 @@ db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
+class PhoneNumberRequest(BaseModel):
+    phone_number: str
+
+
 class UserRequest(BaseModel):
     password: str
 
@@ -45,6 +49,18 @@ async def read_current_user(user: user_dependency, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401, detail='Authentication failed')
     return db.query(Users).filter(Users.id == user.get('id')).first()
+
+
+@router.put('/update_phone_number', status_code=status.HTTP_202_ACCEPTED)
+async def update_phone_number(user: user_dependency, db: db_dependency, phone_request: PhoneNumberRequest):
+    if user is None:
+        raise HTTPException(status_code=401, detail='Authentication failed')
+    phone_model = db.query(Users).filter(Users.id == user.get('id')).first()
+    if phone_model is None:
+        raise HTTPException(status_code=404, detail=f'User does not exist')
+    phone_model.phone_number = phone_request.phone_number
+    db.add(phone_model)
+    db.commit()
 
 
 @router.put("/users", status_code=status.HTTP_202_ACCEPTED)
