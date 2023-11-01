@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, Path, APIRouter
+from fastapi import Depends, HTTPException, Path, APIRouter, Request
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from starlette import status
@@ -9,10 +9,17 @@ from models import ToDos
 from database import SessionLocal
 from .auth import get_current_user
 
-router = APIRouter()
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 
-# Open a database connection then closing it afterwards
+
+router = APIRouter(
+    prefix="/todos",
+    tags=["todos"],
+)
+
+templates = Jinja2Templates(directory='templates')
 def get_db():
     db = SessionLocal()
     try:
@@ -34,6 +41,9 @@ class TodoRequest(BaseModel):
     complete: bool
     # No id because it is auto generated. SQLacemdy does it for us.
 
+@router.get("/test")
+async def test(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
 
 @router.get('/', status_code=status.HTTP_200_OK)
 async def read_all(user: user_dependency, db: db_dependency):

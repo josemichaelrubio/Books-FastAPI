@@ -13,3 +13,9 @@
 routers/admin.py,1/a/1a010e2d217ab218614dc2d3a3e5c7318ae61f85
 @
 routers/users.py,b/8/b807c9b325433959aa8f215a4e99fe00eb0873b5
+;
+alembic.ini,d/8/d84513684d01938b65661cf0358065b11872e9bf
+>
+alembic/env.py,a/8/a8ace36681c69e94af6eece7b11f9f74efbcc4d6
+t
+Dalembic/versions/6def34d63dde_create_phone_number_for_user_column.py,2/e/2e2d2963a3e186fa93a9ea5329e75c570c5db9e2
