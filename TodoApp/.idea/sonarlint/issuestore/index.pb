@@ -19,3 +19,9 @@
 alembic/env.py,a/8/a8ace36681c69e94af6eece7b11f9f74efbcc4d6
 t
 Dalembic/versions/6def34d63dde_create_phone_number_for_user_column.py,2/e/2e2d2963a3e186fa93a9ea5329e75c570c5db9e2
+C
+templates/home.html,8/6/86f3a00c4de0ad1280042b4c75ce3672e5141a0f
+M
+static/todo/css/bootstrap.css,8/e/8eeb9e5dcd08935f7e0e93aec6a710d4fdef0e6f
+H
+static/todo/css/base.css,e/0/e09532481b51fb25f419e34e1e42f0d05520d404
