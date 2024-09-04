@@ -1,4 +1,4 @@
-#!/Users/josemichaelrubio/Programs/FastAPI/fastapi/fastapienv/bin/python3.11
+#!/Users/josemichaelrubio/Programs/FastAPI/fastapi/fastapienv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
